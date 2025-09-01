@@ -1,0 +1,146 @@
+/* ====== Reset básico ====== */
+*{ /* Selector universal: aplica a todos los elementos */
+  margin: 0;                /* Elimina espacios exteriores por defecto */
+  box-sizing: border-box;   /* El padding/borde no aumenta el tamaño visual */
+}
+
+/* ====== Layout base (mobile-first) — body usa Flex en columna ====== */
+body{
+  display: flex;            /* Contenedor flex (apila hijos verticalmente) */
+  flex-direction: column;   /* Eje principal vertical (header→nav→main→aside→footer) */
+  background-color: aqua;   /* Color de fondo de la página (ayuda visual) */
+}
+
+/* ====== Header (verde) ====== */
+header{
+  height: 20vh;             /* 20% de la altura de la ventana en móvil */
+  background-color: green;  /* Fondo verde (mockup) */
+}
+
+/* ====== Nav (rojo) ====== */
+nav{
+  height: 10vh;             /* 10% de la altura de la ventana */
+  background-color: red;    /* Fondo rojo */
+  /* Si quieres la línea amarilla bajo el nav, descomenta: */
+  /* border-bottom: 12px solid #f4b400; */
+}
+
+/* ====== Main (amarillo en móvil) ====== */
+main{
+  height: 100vh;            /* OJO: 100vh aquí + header/nav/aside/footer supera 100vh total (scroll). Se usa así para practicar. */
+  background-color: yellow; /* Fondo amarillo para distinguir */
+  padding: 10px;            /* Espacio interno alrededor de las sections */
+  display: flex;            /* Contenedor flex para sus sections */
+  flex-direction: column;   /* En móvil, las sections se apilan verticalmente */
+  gap: 10px;                /* Separación entre las sections */
+}
+
+/* ====== Section (contenedor de dos tarjetas/article) ====== */
+section{
+  height: 50%;              /* Cada section ocupa la mitad del alto de main (aprox. 50vh) */
+  display: flex;            /* Contenedor flex para sus articles */
+  flex-direction: column;   /* En móvil, las tarjetas se apilan verticalmente */
+  background-color: green;  /* Marco/área verde que envuelve las tarjetas */
+  padding: 10px;            /* Espacio interno entre borde verde y tarjetas */
+  gap: 10px;                /* Separación vertical entre las dos tarjetas */
+}
+
+/* ====== Article (tarjeta gris con padding) ====== */
+article{
+  height: 50%;              /* 2 tarjetas por section; cada una ocupa la mitad */
+  background-color: gray;   /* Fondo gris de cada tarjeta */
+  padding: 10px;            /* Espacio interno de la tarjeta */
+  /* Nota: 'gap' aquí no hace efecto porque 'article' no es contenedor flex/grid */
+}
+
+/* ====== Aside (franja azul en móvil) ====== */
+aside{
+  height: 10vh;             /* 10% del alto de la ventana */
+  background-color: #4f86f7;/* Azul (mockup) */
+}
+
+/* ====== Footer (morado) ====== */
+footer{
+  height: 20vh;             /* 20% del alto de la ventana */
+  background-color: blueviolet; /* Morado (mockup) */
+}
+
+/* ====== Cuadro 20x20 (requisito) — oculto en móvil ====== */
+.cuadro{
+  display: none;            /* No se muestra en móvil */
+}
+
+/* ================================================================== */
+/* =====================  Desktop (>= 769px)  ======================== */
+/* Cambiamos a Grid para el layout de página completo                  */
+/* ================================================================== */
+@media (min-width: 769px){
+
+  /* ===== Body pasa de Flex a Grid con áreas ===== */
+  body{
+    display: grid;                 /* El contenedor principal ahora usa CSS Grid */
+    height: 100vh;                 /* Ocupa el alto de la ventana */
+    grid-template-columns: 1fr 3fr;/* 2 columnas: izquierda (1 parte), derecha (3 partes) */
+    grid-template-rows: 2fr 1fr 6fr 2fr; /* 4 filas: header/nav/zona central/footer */
+    grid-template-areas:           /* Mapa de colocación de cada zona */
+      "header header"              /* Fila 1: header ocupa 2 columnas */
+      "nav nav"                    /* Fila 2: nav ocupa 2 columnas */
+      "aside main"                 /* Fila 3: aside izquierda, main derecha */
+      "footer footer";             /* Fila 4: footer ocupa 2 columnas */
+  }
+
+  /* ===== Header en su área; usamos Flex para centrar el cuadro ===== */
+  header{
+    grid-area: header;             /* Coloca el header en el área 'header' del grid */
+    height: auto;                  /* Altura controlada por la fila del grid (2fr) */
+    background-color: #2e7d32;     /* Verde más cercano al mockup */
+    display: flex;                 /* Para centrar el cuadro 20x20 */
+    justify-content: center;       /* Centrado horizontal */
+    align-items: center;           /* Centrado vertical */
+  }
+
+  .cuadro{
+    display: block;                /* Ahora sí se muestra en desktop */
+    width: 20px;                   /* Ancho del cuadro (requisito) */
+    height: 20px;                  /* Alto del cuadro (requisito) */
+    background-color: yellow;      /* Fondo amarillo (requisito) */
+    border: 3px solid red;         /* Borde rojo con grosor explícito (requisito) */
+  }
+
+  /* ===== Nav en su área ===== */
+  nav{
+    grid-area: nav;                /* Ubica el nav en el área 'nav' */
+    height: auto;                  /* Altura definida por la fila del grid (1fr) */
+  }
+
+  /* ===== Section: de columna (móvil) a fila (desktop) ===== */
+  section{
+    flex-direction: row;           /* Dos tarjetas en una fila */
+    align-items: center;           /* Centra verticalmente las tarjetas en la fila */
+    /* Color, padding y gap ya vienen de las reglas base */
+  }
+
+  /* ===== Aside en su área (columna izquierda) ===== */
+  aside{
+    grid-area: aside;              /* Ubica el aside en 'aside' */
+    height: auto;                  /* Altura definida por la fila (6fr) */
+  }
+
+  /* ===== Main en su área (columna derecha) ===== */
+  main{
+    grid-area: main;               /* Ubica el main en 'main' */
+    height: auto;                  /* Altura definida por la fila (6fr) */
+  }
+
+  /* ===== Article: dos por fila, con altura relativa al contenedor ===== */
+  article{
+    width: 50%;                    /* Cada tarjeta ocupa la mitad de la sección */
+    height: 80%;                   /* Altura interna (depende de la altura de la section) */
+  }
+
+  /* ===== Footer en su área ===== */
+  footer{
+    grid-area: footer;             /* Ubica el footer en 'footer' */
+    height: auto;                  /* Altura definida por la fila (2fr) */
+  }
+}

@@ -1,0 +1,85 @@
+/* ===== Layout base (desktop-first) ===== */
+
+.container{
+    width: 100vw;  /* Ocupa el 100% del ancho de la ventana (viewport width).
+                      Nota: a veces 100vw incluye el scroll y puede generar un
+                      horizontal scroll; si pasa, considera 100% en lugar de 100vw. */
+    height: 100vh; /* Ocupa el 100% del alto de la ventana (viewport height) */
+    display: grid; /* Activa CSS Grid para distribuir los hijos por áreas */
+    background-color: red; /* Fondo rojo del contenedor (solo visual de referencia) */
+
+    /* Tres columnas con proporciones 2fr, 3fr y 1fr (izq → der) */
+    grid-template-columns: 2fr 3fr 1fr;
+
+    /* Cuatro filas, todas con la misma proporción (1fr cada una) */
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+
+    /* Mapa de áreas para ubicar cada bloque por nombre */
+    grid-template-areas: 
+      "navegacion encabezado encabezado" /* Fila 1: nav izq, encabezado ocupa col 2 y 3 */
+      "navegacion productos enlaces"     /* Fila 2: nav izq, productos centro, enlaces der */
+      "navegacion servicios enlaces"     /* Fila 3: nav izq, servicios centro, enlaces der */
+      "navegacion piePagina piePagina";  /* Fila 4: nav izq, pie ocupa col 2 y 3 */
+}
+
+/* ===== Áreas nombradas (cada bloque se posiciona con grid-area) ===== */
+
+.navegacion{
+    grid-area: navegacion; /* Coincide con el nombre usado en grid-template-areas */
+    background-color: blue; /* Color de fondo del bloque navegación */
+}
+
+.encabezado{
+    grid-area: encabezado;  /* Ubica el bloque en el área 'encabezado' */
+    background-color: rgb(39, 189, 54); /* Fondo verde */
+}
+
+.productos{
+    grid-area: productos;   /* Área 'productos' */
+    background-color: rgb(0, 255, 225); /* Fondo cian */
+}
+
+.servicios{
+    grid-area: servicios;   /* Área 'servicios' */
+    background-color: rgb(163, 186, 36); /* Verde amarillento */
+}
+
+.enlaces{
+    grid-area: enlaces;     /* Área 'enlaces' (columna derecha) */
+    background-color: rgb(255, 25, 0); /* Rojo intenso */
+}
+
+.piePagina{
+    grid-area: piePagina;   /* Área 'piePagina' (footer) */
+    background-color: rgb(117, 44, 80); /* Morado oscuro */
+}
+
+/* ============================================================= */
+/* ================== Breakpoint: <= 768px ====================== */
+/* Reorganiza el grid para tablets/pantallas medianas            */
+/* ============================================================= */
+@media (max-width: 768px){
+  .container{
+      width: 100vw;  /* Mantiene el 100% del viewport en ancho */
+      height: 100vh; /* Mantiene el 100% del viewport en alto */
+      display: grid; /* Sigue usando Grid */
+      background-color: red; /* Mismo fondo (referencia) */
+
+      /* Tres columnas con proporción 2fr, 2fr y 1fr */
+      grid-template-columns: 2fr 2fr 1fr;
+
+      /* Cuatro filas iguales (1fr cada una) */
+      grid-template-rows: 1fr 1fr 1fr 1fr;
+
+      /* Nuevo mapa de áreas para este ancho */
+      grid-template-areas: 
+        "encabezado encabezado navegacion" /* Fila 1: encabezado ocupa col 1-2, nav a la derecha */
+        "productos productos productos"     /* Fila 2: productos ocupa todo el ancho */
+        "servicios servicios servicios"     /* Fila 3: servicios ocupa todo el ancho */
+        "piePagina enlaces enlaces";        /* Fila 4: pie col 1, enlaces col 2-3 */
+  }
+}
+
+/* ============================================================= */
+/* ================== Breakpoint: <= 480px ====================== */
+/* Reo*
